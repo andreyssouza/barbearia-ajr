@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(timeout 8 node server.js)",
+      "Bash(npx vite *)",
+      "Bash(node server.js)",
+      "Bash(curl -s -X POST http://localhost:3001/api/auth/register -H \"Content-Type: application/json\" -d \"{\\\\\"name\\\\\":\\\\\"Barbearia AJR\\\\\",\\\\\"email\\\\\":\\\\\"ajr@teste.com\\\\\",\\\\\"password\\\\\":\\\\\"123456\\\\\",\\\\\"whatsapp\\\\\":\\\\\"51999999999\\\\\",\\\\\"slug\\\\\":\\\\\"ajr-barbearia\\\\\"}\")",
+      "Bash(node -e \"const d=require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\); const p=JSON.parse\\(d\\); console.log\\('Token:', p.token ? 'OK' : 'ERRO'\\); console.log\\('Slug:', p.barbershop?.slug\\);\")",
+      "Bash(kill %1)"
+    ]
+  }
+}
