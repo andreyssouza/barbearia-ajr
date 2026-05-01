@@ -1,16 +1,92 @@
-# React + Vite
+# Barbearia AJR — Sistema de Agendamento
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sistema web para agendamento de serviços de barbearia, com painel administrativo para o barbeiro e página de reservas para os clientes.
 
-Currently, two official plugins are available:
+## Tecnologias
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Frontend**
+- React 19 + Vite
+- React Router DOM v6
+- Axios
 
-## React Compiler
+**Backend**
+- Node.js + Express
+- SQLite via sql.js (banco de dados em arquivo, sem instalação extra)
+- JWT para autenticação
+- bcryptjs para hash de senhas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Estrutura do Projeto
 
-## Expanding the ESLint configuration
+```
+ajr/
+├── src/                  # Frontend React
+│   ├── pages/
+│   │   ├── LandingAJR.jsx        # Página inicial pública
+│   │   ├── BookingPage.jsx       # Página de agendamento
+│   │   ├── AdminLogin.jsx        # Login do administrador
+│   │   ├── AdminRegister.jsx     # Cadastro do administrador
+│   │   └── AdminDashboard.jsx    # Painel de gerenciamento
+│   └── services/
+│       └── api.js                # Configuração do Axios
+└── backend/
+    ├── controllers/              # Lógica de negócio
+    ├── routes/                   # Rotas da API
+    ├── middleware/                # Autenticação JWT
+    ├── database/                 # Inicialização do SQLite
+    └── server.js                 # Entrada do servidor
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Instalação e Execução
+
+### Pré-requisitos
+
+- Node.js 18+
+- npm
+
+### Backend
+
+```bash
+cd backend
+npm install
+cp .env.example .env
+# Edite o .env com sua JWT_SECRET
+npm run dev
+```
+
+O servidor sobe em `http://localhost:3001`.
+
+### Frontend
+
+```bash
+# Na raiz do projeto
+npm install
+npm run dev
+```
+
+O frontend sobe em `http://localhost:5173`.
+
+## Variáveis de Ambiente
+
+Crie o arquivo `backend/.env` baseado no `backend/.env.example`:
+
+| Variável     | Descrição                         | Padrão |
+|--------------|-----------------------------------|--------|
+| `PORT`       | Porta do servidor                 | `3001` |
+| `JWT_SECRET` | Chave secreta para geração de JWT | —      |
+
+## API — Rotas Principais
+
+| Método | Rota                    | Descrição                        |
+|--------|-------------------------|----------------------------------|
+| POST   | `/api/auth/register`    | Cadastro de administrador        |
+| POST   | `/api/auth/login`       | Login e geração de token JWT     |
+| GET    | `/api/barbershop`       | Dados públicos da barbearia      |
+| PUT    | `/api/barbershop`       | Atualiza dados (autenticado)     |
+| GET    | `/api/appointments`     | Lista agendamentos (autenticado) |
+| POST   | `/api/appointments`     | Cria novo agendamento            |
+| PUT    | `/api/appointments/:id` | Atualiza agendamento             |
+| DELETE | `/api/appointments/:id` | Remove agendamento               |
+
+## Licença
+
+MIT
