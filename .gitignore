@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Database
+backend/database/*.db
+
+# Claude Code local settings
+.claude/

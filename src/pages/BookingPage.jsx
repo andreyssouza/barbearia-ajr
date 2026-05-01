@@ -9,7 +9,10 @@ function fmtDate(iso) {
   const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
   return `${d} de ${months[+m - 1]} de ${y}`
 }
-function minDate() { return new Date().toISOString().slice(0, 10) }
+function minDate() {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
 
 const SERVICES = [
   { name: 'Corte', price: 'R$ 30', icon: 'fa-solid fa-scissors' },
@@ -202,12 +205,20 @@ const css = `
   .bk-wa-btn:hover { background: #128C7E; transform: translateY(-1px); }
   .bk-new-btn { width: 100%; padding: 13px; background: transparent; border: 1px solid rgba(201,168,76,0.2); color: var(--gold); font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.3s; border-radius: 2px; }
   .bk-new-btn:hover { background: rgba(201,168,76,0.08); }
+  .bk-home-btn { display: block; width: 100%; padding: 11px; background: transparent; border: none; color: rgba(255,255,255,0.35); font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-align: center; text-decoration: none; cursor: pointer; transition: color 0.3s; margin-top: 4px; }
+  .bk-home-btn:hover { color: rgba(255,255,255,0.65); }
 
   /* ── not found ── */
   .bk-not-found { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 24px; text-align: center; }
   .bk-not-found-icon { font-size: 3rem; color: rgba(201,168,76,0.3); margin-bottom: 16px; }
   .bk-not-found-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--white); margin-bottom: 8px; }
-  .bk-not-found-sub { color: var(--gray-light); font-size: 0.9rem; font-weight: 300; }
+  .bk-not-found-sub { color: var(--gray-light); font-size: 0.9rem; font-weight: 300; margin-bottom: 28px; }
+  .bk-not-found-actions { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .bk-not-found-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: all 0.25s; }
+  .bk-not-found-btn.primary { background: var(--gold); color: var(--black); }
+  .bk-not-found-btn.primary:hover { background: var(--gold-light); }
+  .bk-not-found-btn.secondary { border: 1px solid rgba(201,168,76,0.25); color: var(--gold); }
+  .bk-not-found-btn.secondary:hover { background: rgba(201,168,76,0.08); }
 `
 
 export default function BookingPage() {
@@ -301,7 +312,15 @@ export default function BookingPage() {
             <div>
               <div className="bk-not-found-icon"><i className="fa-solid fa-store-slash"></i></div>
               <div className="bk-not-found-title">Barbearia não encontrada</div>
-              <div className="bk-not-found-sub">O link que você acessou não existe ou foi alterado.</div>
+              <div className="bk-not-found-sub">Esta barbearia ainda não foi cadastrada no sistema.</div>
+              <div className="bk-not-found-actions">
+                <Link to="/admin/cadastro" className="bk-not-found-btn primary">
+                  <i className="fa-solid fa-user-plus"></i> Cadastrar Barbearia
+                </Link>
+                <Link to="/admin/login" className="bk-not-found-btn secondary">
+                  <i className="fa-solid fa-lock"></i> Já tenho cadastro
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -361,6 +380,9 @@ export default function BookingPage() {
               <button className="bk-new-btn" onClick={resetForm}>
                 <i className="fa-solid fa-plus"></i> Novo Agendamento
               </button>
+              <a className="bk-home-btn" href={`/${shop?.slug || ''}`}>
+                <i className="fa-solid fa-house"></i> Voltar ao site
+              </a>
             </div>
           </div>
         )}
