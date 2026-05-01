@@ -149,6 +149,56 @@ function useReveal() {
   return ref;
 }
 
+/* ─── SECTION DIVIDER ─── */
+function SectionDivider({ from = "var(--black-soft)", to = "var(--black)" }) {
+  return (
+    <>
+      <style>{`
+        .section-divider {
+          position: relative;
+          height: 64px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+        .section-divider-line {
+          width: 200px;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, var(--gold), transparent);
+          position: relative;
+          animation: dividerShimmer 2.5s ease-in-out infinite;
+        }
+        .section-divider-dot {
+          position: absolute;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: var(--gold);
+          box-shadow: 0 0 10px var(--gold), 0 0 20px rgba(201,168,76,0.4);
+          animation: dividerShimmer 2.5s ease-in-out infinite;
+        }
+        @keyframes dividerShimmer {
+          0%,100% { opacity: 0.3; transform: scaleX(0.6); }
+          50%      { opacity: 1;   transform: scaleX(1); }
+        }
+        .section-divider-dot { transform: none; animation-name: dividerDot; }
+        @keyframes dividerDot {
+          0%,100% { opacity: 0.3; }
+          50%      { opacity: 1; }
+        }
+      `}</style>
+      <div
+        className="section-divider"
+        style={{ background: `linear-gradient(180deg, ${from} 0%, ${to} 100%)` }}
+      >
+        <div className="section-divider-line" />
+        <div className="section-divider-dot" />
+      </div>
+    </>
+  );
+}
+
 /* ─── NAVBAR ─── */
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -441,7 +491,6 @@ const galleryItems = [
   { type: "image", src: gal3, alt: "Fade AJR" },
   { type: "image", src: gal4, alt: "Acabamento AJR" },
   { type: "image", src: gal5, alt: "Estilo AJR" },
-  { type: "image", src: gal6, alt: "Corte clássico AJR" },
 ];
 
 function Gallery() {
@@ -544,15 +593,16 @@ function Location() {
   return (
     <>
       <style>{`
-        .location-section { padding: var(--section-pad) clamp(16px, 6vw, 96px); background: var(--black-soft); display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-        .location-map { position: relative; overflow: hidden; border: 1px solid rgba(201,168,76,0.15); }
-        .location-map iframe { width: 100%; height: 420px; border: none; display: block; filter: grayscale(30%) invert(5%); }
+        .location-section { padding: var(--section-pad) clamp(16px, 6vw, 96px); background: var(--black-soft); display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: stretch; }
+        .location-info { display: flex; flex-direction: column; }
+        .location-map { position: relative; overflow: hidden; border: 1px solid rgba(201,168,76,0.2); border-radius: 2px; min-height: 420px; }
+        .location-map iframe { width: 100%; height: 100%; min-height: 420px; border: none; display: block; filter: grayscale(30%) invert(5%); }
         .location-detail { display: flex; align-items: flex-start; gap: 16px; margin-top: 24px; padding: 20px; border: 1px solid rgba(201,168,76,0.08); background: rgba(255,255,255,0.02); transition: border-color 0.3s; }
         .location-detail:hover { border-color: rgba(201,168,76,0.2); }
         .location-detail-icon { width: 40px; height: 40px; flex-shrink: 0; border: 1px solid rgba(201,168,76,0.25); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 1rem; }
         .location-detail-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
         .location-detail-value { font-size: 0.95rem; color: var(--white); font-weight: 400; line-height: 1.5; }
-        @media (max-width: 900px) { .location-section { grid-template-columns: 1fr; gap: 40px; } .location-map iframe { height: 300px; } }
+        @media (max-width: 900px) { .location-section { grid-template-columns: 1fr; gap: 40px; } .location-map { min-height: 300px; } .location-map iframe { min-height: 300px; } }
       `}</style>
       <section className="location-section" id="localizacao">
         <div className="location-info">
@@ -702,11 +752,17 @@ export default function LandingAJR() {
       <Navbar />
       <main>
         <Hero />
+        <SectionDivider from="var(--black)" to="var(--black-soft)" />
         <Services />
+        <SectionDivider from="var(--black-soft)" to="var(--black)" />
         <Features />
+        <SectionDivider from="var(--black)" to="var(--black-soft)" />
         <Gallery />
+        <SectionDivider from="var(--black-soft)" to="var(--black)" />
         <Testimonials />
+        <SectionDivider from="var(--black)" to="var(--black-soft)" />
         <Location />
+        <SectionDivider from="var(--black-soft)" to="var(--black)" />
         <FinalCTA />
       </main>
       <Footer />
